@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TETRIS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrapper">
+
+    <!-- 왼쪽 패널 -->
+    <div class="panel left-panel">
+      <h1 class="title">TETRIS</h1>
+      <div class="stat-card">
+        <span class="label">SCORE</span>
+        <span class="value" id="score">0</span>
+      </div>
+      <div class="stat-card">
+        <span class="label">LEVEL</span>
+        <span class="value" id="level">1</span>
+      </div>
+      <div class="stat-card">
+        <span class="label">LINES</span>
+        <span class="value" id="lines">0</span>
+      </div>
+    </div>
+
+    <!-- 게임 보드 -->
+    <div class="board-wrap">
+      <canvas id="board" width="300" height="600"></canvas>
+      <div class="overlay" id="overlay">
+        <p class="overlay-title" id="overlay-title">TETRIS</p>
+        <p class="overlay-sub" id="overlay-sub">블록을 쌓고 줄을 지워보세요!</p>
+        <button class="btn" id="action-btn">START</button>
+      </div>
+    </div>
+
+    <!-- 오른쪽 패널 -->
+    <div class="panel right-panel">
+      <div class="stat-card">
+        <span class="label">NEXT</span>
+        <canvas id="next-canvas" width="120" height="100"></canvas>
+      </div>
+      <div class="controls-card">
+        <span class="label">CONTROLS</span>
+        <div class="key-row"><kbd>← →</kbd><span>이동</span></div>
+        <div class="key-row"><kbd>↑</kbd><span>회전</span></div>
+        <div class="key-row"><kbd>↓</kbd><span>빠르게</span></div>
+        <div class="key-row"><kbd>SPACE</kbd><span>즉시 낙하</span></div>
+        <div class="key-row"><kbd>P</kbd><span>일시정지</span></div>
+      </div>
+    </div>
+
+  </div>
+  <script src="tetris.js"></script>
+</body>
+</html>
