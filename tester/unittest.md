@@ -18,7 +18,7 @@
 
 ```bash
 # 1. 프로젝트 루트로 이동
-cd /home/cool/vibeCoding/kosa-vibecoding-2026-3rd/src/exercise/ksw19627/day02/vibeCoding-tetris
+cd /home/cool/vibeCoding-tetris
 
 # 2. MySQL 컨테이너 기동 (이미 실행 중이면 건너뜀)
 docker compose up -d
@@ -752,7 +752,7 @@ Claude는 테스트 실행 중 생성된 `user_id`, `token` 등을 다음 테스
 - **목적**: `hash_password()`가 bcrypt 형식(`$2b$12$...`)의 해시를 반환하는지 확인한다.
 - **실행**:
   ```bash
-  cd /home/cool/vibeCoding/kosa-vibecoding-2026-3rd/src/exercise/ksw19627/day02/vibeCoding-tetris
+  cd /home/cool/vibeCoding-tetris
   .venv/bin/python3 - << 'EOF'
   import sys; sys.path.insert(0, ".")
   from Backend.main import hash_password

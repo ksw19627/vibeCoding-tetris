@@ -19,7 +19,7 @@
 
 ```bash
 # 1. MySQL 컨테이너 확인 및 기동
-cd /home/cool/vibeCoding/kosa-vibecoding-2026-3rd/src/exercise/ksw19627/day02/vibeCoding-tetris
+cd /home/cool/vibeCoding-tetris
 docker compose up -d
 until docker inspect tetris_mysql --format='{{.State.Health.Status}}' 2>/dev/null | grep -q healthy; do sleep 2; done
 echo "MySQL 준비 완료"
