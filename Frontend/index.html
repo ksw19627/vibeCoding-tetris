@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TETRIS — LOGIN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <div class="login-wrapper">
+
+    <!-- 히어로 타이틀 -->
+    <h1 class="hero-title">TETRIS</h1>
+    <p class="hero-sub">우주 최강 테트리스 랭킹에 도전하세요</p>
+
+    <!-- 랭킹 마퀴 -->
+    <div class="marquee-outer">
+      <div class="marquee-label">🏆 GLOBAL RANKING</div>
+      <div class="marquee-track" id="marquee-track">
+        <div class="rank-placeholder">랭킹을 불러오는 중...</div>
+      </div>
+    </div>
+
+    <!-- 도전 욕구 문구 -->
+    <p class="motivation-text">✦ 당신도 기록에 이름을 올릴 수 있어요! ✦</p>
+
+    <!-- 인증 카드 -->
+    <div class="auth-card">
+      <!-- 탭 -->
+      <div class="tab-bar">
+        <button class="tab active" id="tab-login" onclick="switchTab('login')">LOGIN</button>
+        <button class="tab" id="tab-register" onclick="switchTab('register')">REGISTER</button>
+      </div>
+
+      <!-- 오류 메시지 -->
+      <p class="error-msg" id="error-msg"></p>
+
+      <!-- 로그인 폼 -->
+      <form id="login-form" class="auth-form">
+        <div class="input-group">
+          <label class="input-label">EMAIL</label>
+          <input type="email" id="login-email" class="input-field"
+                 placeholder="your@email.com" required autocomplete="email" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">PASSWORD</label>
+          <input type="password" id="login-password" class="input-field"
+                 placeholder="password" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="auth-btn">LOGIN</button>
+      </form>
+
+      <!-- 회원가입 폼 -->
+      <form id="register-form" class="auth-form hidden">
+        <div class="input-group">
+          <label class="input-label">EMAIL</label>
+          <input type="email" id="reg-email" class="input-field"
+                 placeholder="your@email.com" required autocomplete="email" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">PASSWORD</label>
+          <input type="password" id="reg-password" class="input-field"
+                 placeholder="6자 이상" required autocomplete="new-password" minlength="6" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">NICKNAME <span class="optional">(선택)</span></label>
+          <input type="text" id="reg-nickname" class="input-field"
+                 placeholder="닉네임" autocomplete="off" />
+        </div>
+        <button type="submit" class="auth-btn">REGISTER</button>
+      </form>
+    </div>
+
+  </div>
+  <script src="login.js"></script>
+</body>
+</html>

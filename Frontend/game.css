@@ -1,0 +1,376 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0a0a1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'Press Start 2P', 'Courier New', monospace;
+  color: #e0e0e0;
+}
+
+.wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* ── 게임 보드 ── */
+.board-wrap {
+  position: relative;
+}
+
+#board {
+  display: block;
+  border: 2px solid #2a2aff;
+  background: #0d0d1a;
+  box-shadow:
+    0 0 20px rgba(80, 80, 255, 0.4),
+    0 0 60px rgba(80, 80, 255, 0.15);
+}
+
+/* ── 오버레이 ── */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 20, 0.88);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.overlay-title {
+  font-size: 1.6rem;
+  color: #7777ff;
+  text-shadow: 0 0 20px rgba(120, 120, 255, 0.8);
+  letter-spacing: 4px;
+}
+
+.overlay-sub {
+  font-size: 0.5rem;
+  color: #888;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.btn {
+  padding: 12px 28px;
+  font-size: 0.65rem;
+  font-family: inherit;
+  background: #3a3aff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 12px rgba(80, 80, 255, 0.5);
+}
+
+.btn:hover {
+  background: #5555ff;
+  box-shadow: 0 0 20px rgba(100, 100, 255, 0.7);
+}
+
+/* ── 사이드 패널 ── */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 150px;
+}
+
+.stat-card {
+  background: #111128;
+  border: 1px solid #2a2a55;
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.label {
+  display: block;
+  font-size: 0.4rem;
+  letter-spacing: 2px;
+  color: #5555aa;
+  margin-bottom: 6px;
+}
+
+.value {
+  font-size: 1.4rem;
+  color: #9999ff;
+  text-shadow: 0 0 10px rgba(120, 120, 255, 0.5);
+}
+
+.player-name {
+  font-size: 0.55rem;
+  word-break: break-all;
+  line-height: 1.6;
+}
+
+.title {
+  font-size: 1rem;
+  color: #7777ff;
+  letter-spacing: 4px;
+  text-shadow: 0 0 16px rgba(120, 120, 255, 0.7);
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+/* ── 다음 블록 미리보기 ── */
+#next-canvas {
+  display: block;
+  margin-top: 4px;
+  background: #0d0d1a;
+  border-radius: 4px;
+}
+
+/* ── 조작키 안내 ── */
+.controls-card {
+  background: #111128;
+  border: 1px solid #2a2a55;
+  border-radius: 6px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.key-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.4rem;
+  color: #777;
+}
+
+kbd {
+  background: #1e1e3a;
+  border: 1px solid #3a3a66;
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-family: inherit;
+  font-size: 0.38rem;
+  color: #aaa;
+  letter-spacing: 0;
+}
+
+/* ── 로그아웃 버튼 ── */
+.logout-btn {
+  width: 100%;
+  padding: 8px 0;
+  font-size: 0.5rem;
+  background: #1a1a3a;
+  color: #5555aa;
+  box-shadow: none;
+  border: 1px solid #2a2a55;
+  letter-spacing: 1px;
+}
+
+.logout-btn:hover {
+  background: #2a2a4a;
+  color: #8888cc;
+  box-shadow: 0 0 8px rgba(80, 80, 180, 0.3);
+}
+
+/* ── 줄 제거 팝업 텍스트 ── */
+@keyframes clearPop {
+  0%   { opacity: 0;   transform: translate(-50%, -50%) scale(0.4); }
+  18%  { opacity: 1;   transform: translate(-50%, -50%) scale(1.15); }
+  40%  { opacity: 1;   transform: translate(-50%, -50%) scale(1); }
+  75%  { opacity: 1;   transform: translate(-50%, -60%); }
+  100% { opacity: 0;   transform: translate(-50%, -90%); }
+}
+
+.clear-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  pointer-events: none;
+  white-space: nowrap;
+  display: none;
+  z-index: 10;
+}
+
+.clear-popup.show {
+  display: block;
+  animation: clearPop 1.1s ease-out forwards;
+}
+
+.clear-popup.good {
+  color: #33ff66;
+  text-shadow:
+    0 0 12px rgba(50, 255, 100, 0.9),
+    0 0 30px rgba(50, 255, 100, 0.5);
+}
+
+.clear-popup.excellent {
+  color: #33ccff;
+  text-shadow:
+    0 0 14px rgba(50, 200, 255, 0.9),
+    0 0 36px rgba(50, 180, 255, 0.5);
+}
+
+.clear-popup.bravo {
+  color: #ff55cc;
+  text-shadow:
+    0 0 16px rgba(255, 80, 200, 1),
+    0 0 40px rgba(255, 80, 200, 0.6),
+    0 0 70px rgba(200, 50, 180, 0.3);
+  font-size: 1.7rem;
+}
+
+/* ── TOP PLAYERS 랭킹 위젯 ── */
+.rankings-card {
+  min-height: 90px;
+}
+
+#live-rankings {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.rank-empty {
+  font-size: 0.35rem;
+  color: #444466;
+  text-align: center;
+  padding: 8px 0;
+  line-height: 1.8;
+}
+
+.rank-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.38rem;
+  padding: 4px 6px;
+  border-radius: 3px;
+  background: #0d0d22;
+  transition: background 0.3s;
+}
+
+.rank-medal {
+  font-size: 0.7rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.rank-name {
+  flex: 1;
+  color: #8888bb;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.36rem;
+}
+
+.rank-score {
+  color: #9999ff;
+  flex-shrink: 0;
+  font-size: 0.38rem;
+}
+
+/* 1위 골드 글로우 애니메이션 */
+@keyframes rankGlow {
+  0%, 100% { box-shadow: 0 0 4px rgba(255, 200, 50, 0.2); }
+  50%       { box-shadow: 0 0 12px rgba(255, 200, 50, 0.6), 0 0 24px rgba(255, 180, 0, 0.2); }
+}
+
+.rank-row.rank-1 {
+  animation: rankGlow 2s ease-in-out infinite;
+  background: rgba(255, 200, 50, 0.05);
+}
+
+.rank-row.rank-1 .rank-score {
+  color: #ffd700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.rank-row.rank-2 .rank-score {
+  color: #c0c0c0;
+  text-shadow: 0 0 6px rgba(192, 192, 192, 0.4);
+}
+
+.rank-row.rank-3 .rank-score {
+  color: #cd7f32;
+  text-shadow: 0 0 6px rgba(205, 127, 50, 0.4);
+}
+
+/* 현재 로그인 유저 하이라이트 */
+.rank-row--me {
+  border-left: 2px solid #7777ff;
+  background: rgba(100, 100, 255, 0.08);
+}
+
+.rank-row--me .rank-name {
+  color: #aaaaff;
+}
+
+/* ── 모바일 터치 컨트롤 ── */
+.touch-controls {
+  display: none;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.touch-btn {
+  width: 60px;
+  height: 60px;
+  font-size: 1.1rem;
+  font-family: inherit;
+  background: #1e1e3a;
+  color: #9999ff;
+  border: 1px solid #3a3a66;
+  border-radius: 8px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: background 0.15s;
+}
+
+.touch-btn:active {
+  background: #2a2a55;
+}
+
+.touch-btn--drop {
+  background: #2a1a1a;
+  color: #ff7777;
+  border-color: #663a3a;
+}
+
+.touch-btn--drop:active {
+  background: #3a2222;
+}
+
+@media (max-width: 640px), (pointer: coarse) {
+  .touch-controls {
+    display: flex;
+  }
+
+  .wrapper {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .panel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 300px;
+    gap: 8px;
+  }
+
+  .stat-card {
+    flex: 1;
+    min-width: 70px;
+  }
+}

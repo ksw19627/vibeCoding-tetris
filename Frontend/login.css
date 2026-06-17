@@ -1,0 +1,336 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0a0a1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'Press Start 2P', 'Courier New', monospace;
+  color: #e0e0e0;
+  overflow-x: hidden;
+}
+
+/* ── 별 배경 파티클 (CSS only) ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 20%  30%,  rgba(120,120,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60%  15%,  rgba(180,120,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80%  70%,  rgba(100,100,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40%  85%,  rgba(150,150,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10%  60%,  rgba(200,100,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90%  40%,  rgba(100,200,255,0.2) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.login-wrapper {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 380px;
+  padding: 20px;
+}
+
+/* ── 히어로 타이틀 ── */
+@keyframes titleGlow {
+  0%, 100% {
+    text-shadow:
+      0 0 16px rgba(120, 120, 255, 0.7),
+      0 0 32px rgba(100, 80, 255, 0.3);
+  }
+  50% {
+    text-shadow:
+      0 0 40px rgba(150, 100, 255, 1),
+      0 0 80px rgba(100, 80, 255, 0.5),
+      0 0 120px rgba(80, 60, 255, 0.2);
+  }
+}
+
+.hero-title {
+  font-size: 2.8rem;
+  color: #7777ff;
+  letter-spacing: 8px;
+  animation: titleGlow 2.5s ease-in-out infinite;
+  text-align: center;
+}
+
+.hero-sub {
+  font-size: 0.4rem;
+  color: #5555aa;
+  letter-spacing: 2px;
+  text-align: center;
+  line-height: 1.8;
+}
+
+/* ── 랭킹 마퀴 ── */
+.marquee-outer {
+  width: 100%;
+  background: #0d0d22;
+  border: 1px solid #2a2a55;
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow: hidden;
+}
+
+.marquee-label {
+  font-size: 0.4rem;
+  color: #5555aa;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.marquee-track {
+  position: relative;
+  height: 140px;
+  overflow: hidden;
+}
+
+.rank-placeholder {
+  font-size: 0.38rem;
+  color: #333366;
+  text-align: center;
+  padding-top: 50px;
+}
+
+/* 마퀴 아이템 */
+@keyframes floatUp {
+  0%   { transform: translateY(0);     opacity: 0; }
+  8%   { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { transform: translateY(-100%); opacity: 0; }
+}
+
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 4px;
+  font-size: 0.38rem;
+  border-bottom: 1px solid rgba(42, 42, 85, 0.5);
+  position: absolute;
+  width: 100%;
+  animation: floatUp linear infinite;
+  will-change: transform, opacity;
+}
+
+.m-rank {
+  font-size: 0.65rem;
+  flex-shrink: 0;
+  width: 24px;
+  text-align: center;
+}
+
+.m-name {
+  flex: 1;
+  color: #8888bb;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.m-score {
+  color: #9999ff;
+  flex-shrink: 0;
+}
+
+/* 1위 금메달 글로우 */
+@keyframes medalPulse {
+  0%, 100% { filter: drop-shadow(0 0 3px rgba(255, 200, 50, 0.5)); }
+  50%       { filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.9)); }
+}
+
+.marquee-item[data-rank="1"] .m-rank {
+  animation: medalPulse 1.6s ease-in-out infinite;
+}
+
+.marquee-item[data-rank="1"] .m-score {
+  color: #ffd700;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+}
+
+.marquee-item[data-rank="2"] .m-score {
+  color: #c0c0c0;
+}
+
+.marquee-item[data-rank="3"] .m-score {
+  color: #cd7f32;
+}
+
+/* ── 동기 문구 ── */
+@keyframes shimmer {
+  0%   { background-position: -300% center; }
+  100% { background-position:  300% center; }
+}
+
+.motivation-text {
+  font-size: 0.42rem;
+  letter-spacing: 1px;
+  text-align: center;
+  background: linear-gradient(90deg,
+    #7777ff, #bb77ff, #ff77cc, #ffcc44, #77ffcc, #7777ff);
+  background-size: 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+  line-height: 2;
+}
+
+/* ── 인증 카드 ── */
+.auth-card {
+  width: 100%;
+  background: rgba(17, 17, 40, 0.90);
+  border: 1px solid #2a2a55;
+  border-radius: 10px;
+  padding: 24px 20px;
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 0 30px rgba(60, 60, 180, 0.15),
+    inset 0 1px 0 rgba(100, 100, 255, 0.1);
+}
+
+/* 탭 */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #2a2a55;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px;
+  font-family: inherit;
+  font-size: 0.5rem;
+  background: none;
+  border: none;
+  color: #444477;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.tab::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  height: 2px;
+  background: #7777ff;
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+
+.tab.active {
+  color: #9999ff;
+}
+
+.tab.active::after {
+  transform: scaleX(1);
+}
+
+/* 오류 메시지 */
+.error-msg {
+  font-size: 0.38rem;
+  color: #ff6666;
+  min-height: 16px;
+  margin-bottom: 8px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* 폼 */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hidden { display: none !important; }
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-label {
+  font-size: 0.38rem;
+  color: #5555aa;
+  letter-spacing: 2px;
+}
+
+.optional {
+  color: #333366;
+  font-size: 0.32rem;
+}
+
+.input-field {
+  width: 100%;
+  background: #0a0a22;
+  border: 1px solid #2a2a55;
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 0.5rem;
+  color: #ccccff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-field:focus {
+  border-color: #5555aa;
+  box-shadow: 0 0 10px rgba(80, 80, 180, 0.3);
+}
+
+.input-field::placeholder {
+  color: #2a2a55;
+}
+
+/* 흔들기 애니메이션 */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+.input-field.shake {
+  animation: shake 0.4s ease-in-out;
+  border-color: #ff4444;
+}
+
+/* 버튼 */
+.auth-btn {
+  width: 100%;
+  padding: 12px;
+  font-family: inherit;
+  font-size: 0.6rem;
+  background: #3a3aff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 3px;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 14px rgba(80, 80, 255, 0.5);
+  margin-top: 4px;
+}
+
+.auth-btn:hover {
+  background: #5555ff;
+  box-shadow: 0 0 24px rgba(100, 100, 255, 0.7);
+}
+
+.auth-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

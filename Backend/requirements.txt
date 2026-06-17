@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+aiofiles
+bcrypt
+PyMySQL
+python-dotenv
